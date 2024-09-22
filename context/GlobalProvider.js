@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import { filtersDefaultState } from '../constants/defaultState'
 import { getCurrentUser } from '../lib/appwrite'
 
 const GlobalContext = createContext()
@@ -8,6 +9,7 @@ export default GlobalProvider = ({ children }) => {
 	const [isLogged, setIsLogged] = useState(false)
 	const [user, setUser] = useState(null)
 	const [isLoading, setLoading] = useState(true)
+	const [searchFilter, setSearchFilter] = useState(filtersDefaultState)
 
 	useEffect(() => {
 		getCurrentUser()
@@ -35,6 +37,8 @@ export default GlobalProvider = ({ children }) => {
 				user,
 				setUser,
 				isLoading,
+				searchFilter,
+				setSearchFilter,
 			}}
 		>
 			{children}

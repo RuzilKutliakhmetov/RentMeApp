@@ -1,4 +1,5 @@
-import icons from "./icons";
-import images from "./images";
+import defaultState from './defaultState'
+import icons from './icons'
+import images from './images'
 
-export { icons, images };
+export { defaultState, icons, images }

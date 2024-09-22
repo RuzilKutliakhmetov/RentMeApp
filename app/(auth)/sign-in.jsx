@@ -42,15 +42,10 @@ const SignIn = () => {
 						minHeight: Dimensions.get('window').height - 100,
 					}}
 				>
-					{/* <Image
-						source={images.logo}
-						resizeMode='contain'
-						className='w-[115px] h-[34px]'
-					/> */}
-					<Link href='/' className='text-lg font-psemibold text-secondary'>
+					<Link href='/' className='text-lg font-psemibold text-third'>
 						Назад
 					</Link>
-					<Text className='text-2xl font-semibold text-white mt-10 font-psemibold'>
+					<Text className='text-2xl font-semibold text-fourth mt-10 font-psemibold'>
 						Авторизация
 					</Text>
 					<FormField

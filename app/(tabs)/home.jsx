@@ -19,15 +19,21 @@ const Home = () => {
 	}
 
 	return (
-		<SafeAreaView className='bg-primary h-full'>
+		<SafeAreaView className='bg-primary h-full pt-4'>
 			<FlatList
 				data={items}
 				numColumns={2}
-				className='px-3'
-				keyExtractor={item => item.$id}
-				renderItem={({ item }) => <ItemBox item={item}></ItemBox>}
+				columnWrapperStyle={{
+					gap: 10,
+				}}
+				contentContainerStyle={{ gap: 10 }}
+				className='px-4'
+				keyExtractor={(item, index) => index}
+				renderItem={({ item }) => (
+					<ItemBox numColumns={2} item={item} likesIsVisible={true}></ItemBox>
+				)}
 				ListHeaderComponent={() => (
-					<View className='flex flex-row my-6'>
+					<View className='flex flex-row mb-2'>
 						<SearchInput />
 						<FilterButton />
 					</View>

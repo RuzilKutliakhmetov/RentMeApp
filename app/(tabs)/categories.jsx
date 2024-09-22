@@ -24,14 +24,14 @@ const Categories = () => {
 		fetchData()
 	}, [])
 	return (
-		<SafeAreaView className='bg-primary h-full'>
+		<SafeAreaView className='bg-primary h-full pt-4'>
 			<FlatList
 				data={categoriesData}
-				className='px-3'
+				className='px-4'
 				keyExtractor={item => item.$id}
 				renderItem={({ item }) => (
 					<TouchableOpacity
-						className='flex flex-row justify-start items-center h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200'
+						className='flex flex-row justify-start items-center h-16 mt-6 px-4 bg-black-100 rounded-2xl border-2 border-black-200'
 						onPress={() => {
 							router.push({
 								pathname: `/(search)/${item.$id}`,
@@ -45,7 +45,7 @@ const Categories = () => {
 					</TouchableOpacity>
 				)}
 				ListHeaderComponent={() => (
-					<View className='flex flex-row my-6'>
+					<View className='flex flex-row '>
 						<SearchInput />
 					</View>
 				)}

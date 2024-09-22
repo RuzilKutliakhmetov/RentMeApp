@@ -1,13 +1,32 @@
-import { router, usePathname } from 'expo-router'
-import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import ImagesSlider from './ImagesSlider'
+import { router } from 'expo-router'
+import React, { useEffect, useState } from 'react'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { icons } from '../../constants'
+import { useGlobalContext } from '../../context/GlobalProvider'
+import {
+	ChangeItemToFavorites,
+	SearchItemOnUserFavoritesList,
+} from '../../lib/appwrite'
 
-const ItemBox = ({ item }) => {
-	const pathname = usePathname()
+const ItemBox = ({ numColumns, item, likesIsVisible }) => {
+	const { user } = useGlobalContext()
+	const width = numColumns === 1 ? 'w-full' : 'w-40'
+	const [isFavorite, setIsFavorite] = useState(false)
+
+	useEffect(() => {
+		if (user)
+			SearchItemOnUserFavoritesList(user.$id, item.$id)
+				.then(response => {
+					setIsFavorite(response)
+				})
+				.catch(error => {
+					console.log(error)
+				})
+	}, [user])
+
 	return (
 		<TouchableOpacity
-			className='flex flex-col items-center px-1 w-1/2 h-32'
+			className={`flex flex-1 flex-col ${width} bg-black-100 border-2 border-black-200 rounded-md`}
 			onPress={() => {
 				router.push({
 					pathname: `/(item)/${item.$id}`,
@@ -15,14 +34,44 @@ const ItemBox = ({ item }) => {
 				})
 			}}
 		>
-			<View className='flex flex-row gap-3 items-start'>
-				<View className='flex justify-center items-center flex-row flex-1'>
-					<Text className='font-psemibold text-sm text-white' numberOfLines={1}>
-						{item.title}
-					</Text>
-				</View>
+			<Image
+				source={{ uri: item.images[0].url }}
+				className='w-full h-32 rounded-t-md'
+				resizeMode='cover'
+			/>
+			<View className='w-full h-min p-1'>
+				<Text className='font-pmedium text-sm text-white' numberOfLines={2}>
+					{item.title}
+				</Text>
 			</View>
-			<ImagesSlider images={item.images} />
+			{likesIsVisible ? (
+				<TouchableOpacity
+					className='absolute right-2 top-2'
+					onPress={() => {
+						ChangeItemToFavorites(user.$id, item).then(response => {
+							setIsFavorite(response)
+						})
+					}}
+				>
+					{isFavorite ? (
+						<Image
+							source={icons.heart}
+							className='w-5 h-5'
+							resizeMode='contain'
+							tintColor='#FFA001'
+						/>
+					) : (
+						<Image
+							source={icons.heart}
+							className='w-5 h-5'
+							resizeMode='contain'
+							tintColor='#ffffff'
+						/>
+					)}
+				</TouchableOpacity>
+			) : (
+				<></>
+			)}
 		</TouchableOpacity>
 	)
 }
